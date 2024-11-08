@@ -1,12 +1,14 @@
-# Falling Sand Simulator
+# 〽️ Falling Sand Simulator
 
-A falling sand simulator made with SFML library and optimized with the quadtree data structure.\
-Project made to improve C++ knowledge.
+A falling sand simulator optimized with the quadtree data structure.
 
-![fsand](https://github.com/ketameen/fallingsand-sim/assets/112092724/4caf3613-2838-41b0-a76b-dfee2e80baba)
+> [!NOTE]
+> Project is made to improve my understanding of C++ basics.\
+> Still a work in progress. lots of spaghetti code.
+
+![Screenshot 2024-11-08 235644](https://github.com/user-attachments/assets/9e00f81a-5eb9-4d3d-a457-3b65f2408adc)
 
 Usage
 ```
-mingw32-make &&
-./fallingsand.exe
+mkdir build && cmake . -B /build
 ```
