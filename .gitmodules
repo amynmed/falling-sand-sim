@@ -8,3 +8,7 @@
 [submodule "include/CTPL"]
 	path = include/CTPL
 	url = https://github.com/vit-vit/CTPL.git
+[submodule "include/SFML"]
+	path = include/SFML
+	url = https://github.com/SFML/SFML.git
+

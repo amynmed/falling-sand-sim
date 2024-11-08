@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 
+
+set(CMAKE_C_COMPILER "C:/msys64/ucrt64/bin/gcc.exe")
+set(CMAKE_CXX_COMPILER "C:/msys64/ucrt64/bin/g++.exe")
+
 project(fallingsand)
+
+# OpenGL
+find_package(OpenGL REQUIRED)
+
+set(SFML_SOURCE_DIR ${CMAKE_SOURCE_DIR}/include/SFML )
+add_subdirectory(${SFML_SOURCE_DIR})
 
 
 set(INCLUDE_DIR include)
@@ -15,12 +25,14 @@ set(CTPL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/ctpl)
 
 set(SFML_LIB_DIR ${CMAKE_SOURCE_DIR}/include/SFML/lib )
 
-# OpenGL
-find_package(OpenGL REQUIRED)
+
+
 
 set(OPENGL_LIB opengl32 )
 
 file(GLOB SFML_LIB_FILES "*.a" PATH_SUFFIXES SFML_LIB_DIR)
+
+#file(GLOB_RECURSE SFML_SOURCE_FILES "*.cpp" PATH_SUFFIXES SFML_SOURCE_DIR)
 
 file(GLOB SOURCE_FILE include/src/*.cpp )
 

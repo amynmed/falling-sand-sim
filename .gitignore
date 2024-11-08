@@ -1,5 +1,7 @@
 <<<<<<< HEAD
 fallingsand.exe
+.build/
+
 =======
 >>>>>>> quadtree-impl
 .vscode/

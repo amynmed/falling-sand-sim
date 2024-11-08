@@ -515,7 +515,7 @@ void particleGrid::processByQuadTree()
     for (QuadTree * leaf: this->quadTreeLeaves)
     {
         if(!leaf->empty())
-        update_region(leaf->getBoundary());
+            update_region(leaf->getBoundary());
     }
     
     this->reset_cells();
@@ -591,7 +591,7 @@ void particleGrid::renderRegion(sf::RenderWindow& window, Boundary boundary)
 
 bool particleGrid::renderQuadRegions(sf::RenderWindow& window)
 {
-    std::cout << "quadtree leaf nodes number: " << this->quadTreeLeaves.size() << std::endl;
+    //std::cout << "quadtree leaf nodes number: " << this->quadTreeLeaves.size() << std::endl;
     for (QuadTree * leaf: this->quadTreeLeaves)
     {
         //std::cout << "rendering boundary for leaf node " << std::endl;
@@ -628,7 +628,7 @@ void particleGrid::render(sf::RenderWindow& window)
 
                     rectangle.setFillColor(Particle.color);
 
-                    rectangle.setPosition(cell_x, cell_y);
+                    rectangle.setPosition({cell_x, cell_y});
 
                     window.draw(rectangle);
                 }

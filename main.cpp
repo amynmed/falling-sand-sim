@@ -10,8 +10,8 @@
 
 #include "particles.hpp"
 
-#define  HEIGHT 900
-#define  WIDTH  1200
+#define  HEIGHT 1000
+#define  WIDTH  1000
 
 #define SCALE_FACTOR_X (WIDTH  / SIZE_X)
 #define SCALE_FACTOR_Y (HEIGHT / SIZE_Y)
@@ -29,13 +29,13 @@ int main()
 
     std::cout << "start" << std::endl;
 
-    sf::Text fps;
-    fps.setFillColor(sf::Color::White);
-    fps.setCharacterSize(35);
+    //sf::Text fps = sf::Text();
+    //fps.setFillColor(sf::Color::White);
+    //fps.setCharacterSize(35);
     
     sf::Clock clock;
 
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "falling_sand");
+    sf::RenderWindow window(sf::VideoMode({WIDTH, HEIGHT}), "falling_sand");
 
     // initializing ImGui
     ImGui::SFML::Init(window);
@@ -65,10 +65,10 @@ int main()
     {
         window.clear();
         
-        sf::Event event;
+        //auto event = sf::Event();
 
         //std::cout << "listening to mouse" << std::endl;
-        if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
         {
             sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
             particleGrid.add_bucket(mouse_position.x,
@@ -76,25 +76,24 @@ int main()
                                     selected_type);
         }
 
-        while (window.pollEvent(event))
+        while (const std::optional event = window.pollEvent())
         {
-            // uncomment this afterwards.
-            ImGui::SFML::ProcessEvent(event);
+            ImGui::SFML::ProcessEvent(window, *event);
 
-            switch (event.type)
+            if (event->is<sf::Event::Closed>() ||
+                (event->is<sf::Event::KeyPressed>() &&
+                 event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape))
             {
-                case sf::Event::Closed :
-                    window.close();
-                    break;
-                default:
-                    break;
+                window.close();
             }
         }
 
-        std::cout << "init gui" << std::endl;
+        //std::cout << "init gui" << std::endl;
+
+
         // ImGui window config
         sf::Time elapsed = clock.restart();
-        fps.setString("FPS: "+ std::to_string(1. / elapsed.asSeconds()));
+        //fps.setString("FPS: "+ std::to_string(1. / elapsed.asSeconds()));
 
 
         ImGui::SFML::Update(window, elapsed);
@@ -109,8 +108,8 @@ int main()
         if(ImGui::Button("Smoke")) selected_type = SMOKE ;
         if(ImGui::Button("Stone")) selected_type = STONE ;
         if(ImGui::Button("Erase")) selected_type = AIR   ;
-        ImGui::SliderInt("Bucket_Size", &particleGrid.brush_size, MIN_BUCKET_SIZE, MAX_BUCKET_SIZE);
         if(ImGui::Button("Reset")) particleGrid.initialize_cells();
+        ImGui::SliderInt("Bucket_Size", &particleGrid.brush_size, MIN_BUCKET_SIZE, MAX_BUCKET_SIZE);
         
 
 
@@ -121,11 +120,11 @@ int main()
 
         // update particles state
         //std::cout << "updating cells" << std::endl;
-
+        
         if(treeActive)
-        particleGrid.processByQuadTree();
+            particleGrid.processByQuadTree();
         else
-        particleGrid.update_all();
+            particleGrid.update_all();
 
         //std::cout << "rendering cells" << std::endl;
         particleGrid.render(window);
@@ -137,22 +136,19 @@ int main()
         *
         */
         if(showTree)
-        particleGrid.renderQuadRegions(window);
+            particleGrid.renderQuadRegions(window);
 
         // FPS
-        std::cout << "FPS: " << std::to_string(1. / elapsed.asSeconds()) << std::endl;
-        window.draw(fps);
+        //std::cout << "FPS: " << std::to_string(1. / elapsed.asSeconds()) << std::endl;
+        //window.draw(fps);
 
         ImGui::End();
 
         // render menu
         ImGui::SFML::Render(window);
-
-        
         
         window.display();
     }
-
 
     ImGui::SFML::Shutdown(window);
     return 0;
